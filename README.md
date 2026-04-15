@@ -1,75 +1,57 @@
-# TypeUI Style Extractor (Chrome Extension)
+# TypeUI DESIGN.md Extractor (Chrome Extension)
 
-Chrome Extension (Manifest V3) that extracts style foundations from the active page and generates either:
+This Chrome extension extract styles and information from any given site and generates a `DESIGN.md` or `SKILL.md` file that you can use with tools such as Google Stitch, Claude Code, Codex, and others to build websites with a given design system blueprint. The file is based on the open-source [TypeUI DESIGN.md](https://www.typeui.sh/design-md) format.
 
-- `DESIGN.md`
-- `SKILL.md`
+## Getting started
 
-The generated output follows the local [DESIGN blueprint](./DESIGN.md).
-Audience and product surface are inferred from live page signals (URL, metadata, headings, nav/CTA copy, and structure), not fixed defaults.
-
-## References
-
-- TypeUI configuration: [https://typeui.sh/](https://typeui.sh/)
-- Curated design skills: [https://www.typeui.sh/design-skills](https://www.typeui.sh/design-skills)
-- Chrome tutorial baseline: [https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world)
-
-## Branding and Icons
-
-This extension uses root `logo.png` as the source icon asset.
-
-Generate required icon sizes:
-
-```bash
-./scripts/generate-icons.sh
-```
-
-Generated files:
-
-- `assets/icons/icon16.png`
-- `assets/icons/icon32.png`
-- `assets/icons/icon48.png`
-- `assets/icons/icon128.png`
-
-## Local Setup
+Load the extension in Chrome:
 
 1. Open `chrome://extensions`
 2. Enable **Developer mode**
 3. Click **Load unpacked**
-4. Select this project directory
+4. Select this project folder
 
-## Usage
+## Curated design skills
 
-1. Open any website page.
-2. Click the extension action.
-3. The extension auto-generates markdown instantly from the active tab.
-4. Optional: switch mode between `DESIGN.md` and `SKILL.md`.
-5. Optional: click **Refresh** after page changes.
-6. Review preview and validation warnings.
-7. Click **Download** to save the generated markdown file.
+Check out curated design systems at [typeui.sh/design-skills](https://www.typeui.sh/design-skills).
 
-## Project Structure
+## Available actions
 
-- `manifest.json` - MV3 configuration and icon wiring.
-- `service-worker.js` - extraction orchestration and file export.
-- `content-script.js` - DOM/computed style extraction.
-- `popup/` - extension UI for mode switch, auto-generation, preview, and export.
-- `lib/normalize.mjs` - style normalization and token inference.
-- `lib/generate-design-md.mjs` - `DESIGN.md` generator.
-- `lib/generate-skill-md.mjs` - `SKILL.md` generator.
-- `lib/validate.mjs` - output conformance checks.
-- `tests/run-tests.mjs` - smoke tests for generation/validation.
+| Action | Description |
+| --- | --- |
+| Auto-extract | Reads styles from the active tab (typography, colors, spacing, radius, shadows, motion). |
+| Generate `DESIGN.md` | Produces design-system documentation markdown from extracted signals. |
+| Generate `SKILL.md` | Produces agent-ready skill markdown from extracted signals. |
+| Refresh | Re-runs extraction for the current page state. |
+| Download | Saves generated output as `DESIGN.md` or `SKILL.md`. |
+| Explain (`?`) | Shows how the file was generated, with TypeUI reference. |
 
-## Tests
+## Generated file structure
 
-Run:
+The generated markdown follows this structure:
+
+| Section | What it does |
+| --- | --- |
+| `Mission` | Defines the design-system objective for the extracted site. |
+| `Brand` | Captures product/brand context, URL, audience, and product surface. |
+| `Style Foundations` | Lists inferred visual tokens and foundations. |
+| `Accessibility` | Applies WCAG 2.2 AA requirements and interaction constraints. |
+| `Writing Tone` | Sets guidance tone for implementation-ready output. |
+| `Rules: Do` | Lists required implementation practices. |
+| `Rules: Don't` | Lists anti-patterns and prohibited behavior. |
+| `Guideline Authoring Workflow` | Defines ordered guideline authoring steps. |
+| `Required Output Structure` | Enforces consistent output sections. |
+| `Component Rule Expectations` | Defines required interaction/state details. |
+| `Quality Gates` | Adds testable quality and consistency checks. |
+
+## Local development
+
+Run tests locally:
 
 ```bash
 node tests/run-tests.mjs
 ```
 
-The tests validate:
+## License
 
-- token inference from sample extraction payloads
-- section completeness for `DESIGN.md` and `SKILL.md`
-- required markers and accessibility constraints
+This project is open-source under the MIT License.
